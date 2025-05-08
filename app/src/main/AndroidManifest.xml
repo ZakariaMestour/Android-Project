@@ -12,8 +12,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Control"
         tools:targetApi="31">
+
         <activity
-            android:name=".LeaderboardActivity"
+            android:name=".classement.LeaderboardActivity"
             android:exported="false"
             android:theme="@style/Theme.Control" />
         <activity
