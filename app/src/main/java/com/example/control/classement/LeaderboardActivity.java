@@ -16,6 +16,8 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.example.control.R;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -33,6 +35,7 @@ public class LeaderboardActivity extends AppCompatActivity {
     private ArrayList<User> userList;
     private LeaderboardAdapter adapter;
     private DatabaseReference databaseReference;
+    private String currentUserId;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,7 +47,15 @@ public class LeaderboardActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+// Obtenir l'ID de l'utilisateur actuel
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        if (currentUser != null) {
+            currentUserId = currentUser.getUid();
+        } else {
+            currentUserId = ""; // Si l'utilisateur n'est pas connecté
+        }
 
+        // Initialiser Firebase
         databaseReference = FirebaseDatabase.getInstance().getReference("users");
 
         // Initialiser les vues
@@ -53,7 +64,7 @@ public class LeaderboardActivity extends AppCompatActivity {
 
         // Initialiser la liste des utilisateurs
         userList = new ArrayList<>();
-        adapter = new LeaderboardAdapter(this, userList);
+        adapter = new LeaderboardAdapter(this, userList, currentUserId);
         listViewLeaderboard.setAdapter(adapter);
 
         // Charger les données depuis Firebase
@@ -67,6 +78,7 @@ public class LeaderboardActivity extends AppCompatActivity {
             }
         });
     }
+
     private void loadLeaderboardData() {
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
@@ -77,6 +89,12 @@ public class LeaderboardActivity extends AppCompatActivity {
                     // Récupérer les données utilisateur de Firebase
                     String userId = snapshot.getKey();
                     String username = snapshot.child("username").getValue(String.class);
+                    String email = "";
+
+                    // Récupérer l'email s'il existe
+                    if (snapshot.hasChild("email")) {
+                        email = snapshot.child("email").getValue(String.class);
+                    }
 
                     // Vérifier si le champ score existe
                     Integer score = 0;
@@ -87,7 +105,7 @@ public class LeaderboardActivity extends AppCompatActivity {
                         }
                     }
 
-                    User user = new User(userId, username, score);
+                    User user = new User(userId, username, email, score);
                     userList.add(user);
                 }
 
