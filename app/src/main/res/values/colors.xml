@@ -6,4 +6,5 @@
     <color name="colorPrimaryDark">#0C976C</color>
     <color name="colorAccent">#E1F1F0</color>
     <color name="linksColor">#0A4C7C</color>
+    <color name="colorPrimaryLight">#3FBCF6</color>
 </resources>

@@ -15,6 +15,7 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.example.control.dynamicQuestions.QuizActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -63,7 +64,7 @@ public class MainActivity extends AppCompatActivity {
                             public void onComplete(@NonNull Task<AuthResult> task) {
                                 if (task.isSuccessful()) {
                                     Toast.makeText(getApplicationContext(), "Login successful", Toast.LENGTH_SHORT).show();
-                                    startActivity(new Intent(MainActivity.this, quiz1.class));
+                                    startActivity(new Intent(MainActivity.this, QuizActivity.class));
                                     finish();
                                 } else {
                                     Toast.makeText(getApplicationContext(), "Login failed: " + task.getException().getMessage(),

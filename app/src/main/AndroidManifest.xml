@@ -12,7 +12,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Control"
         tools:targetApi="31">
-
+        <activity
+            android:name=".dynamicQuestions.QuizActivity"
+            android:exported="false" />
         <activity
             android:name=".classement.LeaderboardActivity"
             android:exported="false"
@@ -41,7 +43,7 @@
         <activity
             android:name=".MainActivity"
             android:exported="true"
-            android:label="QCM Login">
+            android:label="QCM App Dynamic ver">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
